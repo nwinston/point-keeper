@@ -1,2 +1,2 @@
-worker: python3.6 src/tasks.py celery worker --loglevel=info
+worker: celery -A tasks.py worker -l info
 web: python3.6 src/app.py

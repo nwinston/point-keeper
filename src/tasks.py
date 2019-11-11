@@ -3,7 +3,6 @@ from __future__ import absolute_import
 from functools import partial
 from celery import Celery
 from bot import Bot
-from db import DB
 
 import os
 

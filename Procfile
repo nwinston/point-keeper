@@ -1,2 +1,2 @@
-worker: celery -A src/tasks.py worker -l info
+worker: cd src && celery -A tasks worker -l info
 web: python3.6 src/app.py

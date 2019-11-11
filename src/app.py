@@ -51,7 +51,7 @@ def on_message(event):
 
 if __name__ == '__main__':
 	port = os.environ.get('PORT', 3000)
-	event_adapter.start(port=port)
+	event_adapter.start(host='0.0.0.0', port=port)
 
 	db_interval = os.environ.get('DB_WRITE_INTERVAL', 500)
 	timer = Timer(db.save, db_interval)

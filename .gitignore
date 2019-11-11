@@ -1,0 +1,5 @@
+env
+*.pickle
+__pycache__
+*.pyc
+.DS_STORE

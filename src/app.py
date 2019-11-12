@@ -1,11 +1,9 @@
 import os
-import functools
 import re
 
 from slackeventsapi import SlackEventAdapter
 
 import tasks
-from timer import Timer
 from db import DB
 
 point_regex = re.compile('\+1\s*<@([A-Z0-9]*)>$')
@@ -15,6 +13,7 @@ event_adapter = SlackEventAdapter(secret, endpoint='/slack/events')
 
 db_url = os.environ['REDIS_STORE_URL']
 db = DB(db_url)
+
 
 def submit_post_points(channel, user=None, n=None):
 	points = db.get_points(user, n)

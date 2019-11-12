@@ -31,7 +31,7 @@ def handle_message(text, channel):
 
 	user = match.group(1)
 	db.add_point(user)
-	tasks.point_added.delay(channel)
+	tasks.point_recorded.delay(channel)
 
 
 @event_adapter.on('message')

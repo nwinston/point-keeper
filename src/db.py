@@ -34,6 +34,7 @@ class DB:
 		if not keys:
 			return {}
 
+		keys = [str(k) for k in keys]
 		results = Counter({key: self.conn.get(key) for key in keys})
 		return results.most_common(n)
 

@@ -6,7 +6,7 @@ from slackeventsapi import SlackEventAdapter
 import tasks
 from db import DB
 
-point_regex = re.compile('\+1\s*<@([A-Z0-9]*)>$')
+point_regex = re.compile('(\+|\-)1\s*<@([A-Z0-9]*)>$')
 
 secret = os.environ['SLACK_SIGNING_SECRET']
 event_adapter = SlackEventAdapter(secret, endpoint='/slack/events')
@@ -29,8 +29,15 @@ def handle_message(text, channel):
 	if not match:
 		return
 
+
 	user = match.group(1)
-	db.add_point(user)
+
+	op = match.group(0)
+	if op == '-':
+		db.remove_point(user)
+	elif op == '+':
+		db.add_point(user
+
 	tasks.point_added.delay(channel)
 
 

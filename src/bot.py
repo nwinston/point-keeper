@@ -4,10 +4,10 @@ class Bot:
 	def __init__(self, api_token):
 		self.client = slack.WebClient(api_token)
 
-	def post_point_added_message(self, channel):
+	def post_point_recorded_message(self, channel):
 		self.client.chat_postMessage(
 			channel=channel, 
-			text='Point added to database'
+			text='Point recorded in database'
 		)
 
 	def post_points_table(self, points, channel, user=None, n=None):

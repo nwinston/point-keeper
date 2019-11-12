@@ -15,8 +15,8 @@ bot = Bot(bot_token)
 
 
 @app.task
-def point_added(channel):
-	bot.post_point_added_message(channel)
+def point_recorded(channel):
+	bot.post_point_recorded_message(channel)
 
 
 @app.task

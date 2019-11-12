@@ -42,7 +42,7 @@ def on_message(event):
 	if message.get('subtype'):
 		return
 
-	text = message.get('text')
+	text = str(message.get('text'))
 	channel = message.get('channel')
 
 	handle_message(text, channel)

@@ -1,10 +1,41 @@
+'''
 import os
 import pickle
 import shutil
 import tempfile
 from collections import Counter
 from threading import Lock
+'''
+from collections import Counter
+import redis
 
+
+class DB:
+	def __init__(self, db_url):
+		self.conn = redis.from_url(db_url)
+
+	def add_point(self, user):
+		points = self.conn.get(user)
+		points = points + 1 if points else 1
+		self.conn.set(user, points)
+
+	def remove_point(self, user):
+		points = self.conn.get(user)
+		if not points:
+			self.conn.set(user, 0)
+		else:
+			self.conn.set(user, points - 1)
+
+	def get_points(self, user=None, n=None):
+		if user:
+			return self.conn.get(user)
+
+		results = Counter({key: self.conn.get(key) for key in self.conn.scan(match='*')})
+		return results.most_common(n)
+
+
+
+'''
 class DB:
 	def __init__(self, db_file):
 		self.counter = Counter()
@@ -55,3 +86,4 @@ class DB:
 			return self.counter[user]
 
 		return self.counter.most_common(n)
+'''

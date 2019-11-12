@@ -12,7 +12,7 @@ import redis
 
 class DB:
 	def __init__(self, db_url):
-		self.conn = redis.from_url(db_url)
+		self.conn = redis.from_url(db_url, decode_responses=True)
 
 	def add_point(self, user):
 		points = self.conn.get(user)

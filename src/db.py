@@ -12,7 +12,7 @@ import redis
 
 class DB:
 	def __init__(self, db_url):
-		self.conn = redis.from_url(db_url)
+		self.conn = redis.from_url(db_url, decode_responses=True)
 		self.conn.flushdb()
 
 	def add_point(self, user):
@@ -36,8 +36,6 @@ class DB:
 		if not keys:
 			return {}
 
-		keys = [k.decode() for k in keys]
-		print(keys)
 		results = Counter({key: self.conn.get(key) for key in keys})
 		return results.most_common(n)
 

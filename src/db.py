@@ -31,9 +31,9 @@ class DB:
 			return self.conn.get(user)
 
 		keys = self.conn.scan(match='*')
+		print(keys)
 		if not keys[1]:
 			return {}
-
 
 		results = Counter({key: self.conn.get(key) for key in keys})
 		return results.most_common(n)

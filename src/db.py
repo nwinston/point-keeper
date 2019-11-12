@@ -30,7 +30,7 @@ class DB:
 		if user:
 			return self.conn.get(user)
 
-		keys = self.conn.scan(match='*')[1]
+		keys = self.conn.scan(match='*')
 		if not keys[1]:
 			return {}
 

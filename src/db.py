@@ -9,6 +9,7 @@ class DB:
 	def add_point(self, user):
 		points = self.conn.get(user)
 		points = points + 1 if points else 1
+		print('post points: {}'.format(points))
 		self.conn.set(user, points)
 
 	def remove_point(self, user):

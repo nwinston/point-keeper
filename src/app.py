@@ -33,6 +33,8 @@ def handle_message(text, channel):
 	user = match.group(1)
 
 	op = match.group(0)
+	print(op)
+	print(user)
 	if op == '-':
 		db.remove_point(user)
 	elif op == '+':

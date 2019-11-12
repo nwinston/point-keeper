@@ -17,6 +17,7 @@ class DB:
 
 	def add_point(self, user):
 		points = self.conn.get(user)
+		print(points)
 		points = points + 1 if points else 1
 		print('post points: {}'.format(points))
 		self.conn.set(user, points)

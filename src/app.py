@@ -32,7 +32,7 @@ def handle_message(text, channel):
 
 	user = match.group(1)
 
-	op = match.group(0)
+	op = match.group(0).strip()
 	print(op)
 	print(user)
 	if op == '-':

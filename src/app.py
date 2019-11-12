@@ -8,7 +8,7 @@ import tasks
 from timer import Timer
 from db import DB
 
-point_regex = re.compile(r'(\+|\-)1\s*<@([A-Z0-9]*)>$')
+point_regex = re.compile(r'\+1\s*<@([A-Z0-9]*)>$')
 
 secret = os.environ['SLACK_SIGNING_SECRET']
 event_adapter = SlackEventAdapter(secret, endpoint='/slack/events')
@@ -31,14 +31,7 @@ def handle_message(text, channel):
 		return
 
 	user = match.group(1)
-
-	op = match.group(0).strip()
-	print(op)
-	print(user)
-	if '-' in op:
-		db.remove_point(user)
-	elif '+' in op:
-		db.add_point(user)
+	db.add_point(user)
 
 	tasks.point_recorded.delay(channel)
 

@@ -30,8 +30,10 @@ class DB:
 		if user:
 			return self.conn.get(user)
 
-		results = Counter({key: self.conn.get(key) for key in self.conn.scan(match='*')})
-		return results.most_common(n)
+		print(self.conn.scan(match='*'))
+		#results = Counter({key: self.conn.get(key) for key in self.conn.scan(match='*')})
+		#return results.most_common(n)
+		return {}
 
 
 

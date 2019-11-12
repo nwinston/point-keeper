@@ -10,8 +10,6 @@ broker_url = os.environ['REDIS_BROKER_URL']
 app = Celery('tasks', broker=broker_url
 )
 
-redis_store = os.environ['REDIS_STORE_URL']
-
 bot_token = os.environ.get('BOT_TOKEN')
 bot = Bot(bot_token)
 

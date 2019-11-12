@@ -34,9 +34,9 @@ def handle_message(text, channel):
 	op = match.group(0).strip()
 	print(op)
 	print(user)
-	if op == '-':
+	if '-' in op:
 		db.remove_point(user)
-	elif op == '+':
+	elif '+' in op:
 		db.add_point(user)
 
 	tasks.point_recorded.delay(channel)

@@ -16,6 +16,7 @@ class DB:
 		self.conn.flushdb()
 
 	def add_point(self, user):
+		print(user)
 		points = self.conn.get(user)
 		points = points + 1 if points else 1
 		self.conn.set(user, points)

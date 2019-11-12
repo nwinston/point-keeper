@@ -13,10 +13,8 @@ class DB:
 
 	def remove_point(self, user):
 		points = self.conn.get(user)
-		if not points:
-			self.conn.set(user, 0)
-		else:
-			self.conn.set(user, points - 1)
+		points = points - 1 if points else 0
+		self.conn.set(user, points)
 
 	def get_points(self, user=None, n=None):
 		if user:

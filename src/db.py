@@ -12,6 +12,7 @@ class DB:
 
 	def add_point(self, user_id):
 		points = self.conn.hget(USERS, user_id)
+		print('{}:{}'.format(type(points), points))
 		points = points + 1 if points else 1
 		self.conn.hset(USERS, user_id, points)
 

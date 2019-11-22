@@ -44,6 +44,7 @@ class DB:
 
 	def get_reply_thread(self, msg_id):
 		print('fetching reply thread: {}'.format(msg_id))
+		print(self.conn.hgetall(REPLIES))
 		return self.conn.hget(REPLIES, msg_id)
 
 	def add_reply_thread(self, initial_msg_id, reply_id):

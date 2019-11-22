@@ -53,7 +53,7 @@ def on_message(event):
 
 def monthly_update():
 	date = datetime.date.today()
-	hour = int(datetime.datetime.utcnow().strftime("%H")) - 5 #hardcoding to east coast
+	hour = (int(datetime.datetime.utcnow().strftime("%H")) - 5) % 24 #hardcoding to east coast
 	day = date.day
 	print('day: {}; hour: {}'.format(day, hour))
 	if day == 21 and hour == 20:

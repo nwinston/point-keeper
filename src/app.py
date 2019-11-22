@@ -53,7 +53,7 @@ def on_message(event):
 
 def monthly_update():
 	date = datetime.date.today()
-	hour = int(datetime.datetime.now().strftime("%H"))
+	hour = int(datetime.datetime.utcnow().strftime("%H")) - 5 #hardcoding to east coast
 	day = date.day
 	print('day: {}; hour: {}'.format(day, hour))
 	if day == 21 and hour == 20:
@@ -62,8 +62,10 @@ def monthly_update():
 
 if __name__ == '__main__':
 	port = os.environ.get('PORT', 3000)
+
 	def start():
 		event_adapter.start(host='0.0.0.0', port=port)
 	threading.Thread(target=start).start()
-	timer = Timer(monthly_update, 1)
+
+	timer = Timer(monthly_update, 60 * 60 * 30.5)
 	timer.start()

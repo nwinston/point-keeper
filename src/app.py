@@ -21,6 +21,8 @@ bot_token = os.environ.get('BOT_TOKEN')
 bot = Bot(bot_token)
 
 
+THUMBS_UP = '+1'
+
 def post_points(channel, user=None, n=None):
     points = db.get_points(user, n)
     bot.post_points_table(points, channel, user, n)
@@ -32,7 +34,7 @@ def on_reaction_added(payload):
     reaction = event['reaction']
 
     print('reaction added: {}'.format(reaction))
-    if reaction != 'thumbsup':
+    if reaction != THUMBS_UP:
         return
 
     reactee_id = event['item_user']
@@ -54,7 +56,7 @@ def on_reaction_added(payload):
 @event_adapter.on('reaction_removed')
 def on_reaction_removed(payload):
     event = payload['event']
-    if event['reaction'] != 'thumnbsup':
+    if event['reaction'] != THUMBS_UP:
         return
 
     reactee_id = event['item_user']

@@ -12,12 +12,19 @@ class DB:
 
 	def add_point(self, user_id):
 		points = self.conn.hget(USERS, user_id)
-		print('{}:{}'.format(type(points), points))
+		if not points:
+			points = 0
+		points = int(points)
+		
 		points = points + 1 if points else 1
 		self.conn.hset(USERS, user_id, points)
 
 	def remove_point(self, user_id):
 		points = self.conn.hget(USERS, user_id)
+		if not points:
+			points = 0
+		points = int(points)
+
 		points = points - 1 if points else 0
 		self.conn.hset(USERS, user_id, points)
 

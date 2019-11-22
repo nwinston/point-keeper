@@ -27,7 +27,7 @@ def post_points(channel, user=None, n=None):
 
 
 @event_adapter.on('reaction_added')
-def on_message(payload):
+def on_reaction_added(payload):
     print('reaction added')
 
     event = payload['event']
@@ -51,6 +51,11 @@ def on_message(payload):
     db.add_reply_thread(msg_id, reply_thread)
 
 
+@event_adapter.on('message')
+def on_message(payload):
+	print('on message')
+
+
 def monthly_update():
     date = datetime.date.today()
     hour = (int(datetime.datetime.utcnow().strftime("%H")) - 5) % 24  # hardcoding to EST
@@ -61,14 +66,8 @@ def monthly_update():
 
 
 if __name__ == '__main__':
-    port = os.environ.get('PORT', 3000)
-
-
-    def start():
-        event_adapter.start(host='0.0.0.0', port=port)
-
-
-    threading.Thread(target=start).start()
-
     timer = Timer(monthly_update, 60 * 60 * 30.5)
     timer.start()
+
+	port = os.environ.get('PORT', 3000)
+	event_adapter.start(host='0.0.0.0', port=port)

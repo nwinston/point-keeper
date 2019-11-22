@@ -47,6 +47,7 @@ def on_reaction_added(payload):
     reply_thread = db.get_reply_thread(msg_id)
     if not reply_thread:
         reply = bot.post_point_recorded_message(channel)
+        print(reply)
         reply_ts = reply['event']['ts']
         reply_thread = DB.create_msg_id(channel, reply_ts)
 

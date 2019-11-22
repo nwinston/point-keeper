@@ -2,6 +2,7 @@ import os
 import re
 import sched
 import datetime
+import threading
 
 from slackeventsapi import SlackEventAdapter
 
@@ -11,10 +12,10 @@ from timer import Timer
 
 point_regex = re.compile('\+1\s*<@([A-Z0-9]*)>$')
 
-secret = os.environ['SLACK_SIGNING_SECRET']
+secret = os.environ.get('SLACK_SIGNING_SECRET', default=None)
 event_adapter = SlackEventAdapter(secret, endpoint='/slack/events')
 
-db_url = os.environ['REDIS_STORE_URL']
+db_url = os.environ.get('REDIS_STORE_URL', default="redis://")
 db = DB(db_url)
 
 
@@ -61,6 +62,8 @@ def monthly_update():
 
 if __name__ == '__main__':
 	port = os.environ.get('PORT', 3000)
-	event_adapter.start(host='0.0.0.0', port=port)
-	timer = Timer(monthly_update, 30)
+	def start():
+		event_adapter.start(host='0.0.0.0', port=port)
+	threading.Thread(target=start).start()
+	timer = Timer(monthly_update, 1)
 	timer.start()

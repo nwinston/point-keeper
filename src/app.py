@@ -31,16 +31,15 @@ def on_reaction_added(payload):
     print('reaction added')
 
     event = payload['event']
-    if event['name'] != 'thumbsup':
+    if event['reaction'] != 'thumbsup':
         return
 
     reactee_id = event['item_user']
+    db.add_point(reactee_id)
 
     channel = event['item']['channel']
     timestamp = event['item']['ts']
     msg_id = DB.create_msg_id(channel, timestamp)
-
-    db.add_point(reactee_id)
 
     reply_thread = db.get_reply_thread(msg_id)
     if not reply_thread:
@@ -49,6 +48,16 @@ def on_reaction_added(payload):
         reply_thread = DB.create_msg_id(channel, reply_ts)
 
     db.add_reply_thread(msg_id, reply_thread)
+
+
+@event_adapter.on('reaction_removed')
+def on_reaction_removed(payload):
+    event = payload['event']
+    if event['reaction'] != 'thumnbsup':
+        return
+
+    reactee_id = event['item_user']
+    db.remove_point(reactee_id)
 
 
 @event_adapter.on('message')

@@ -1,10 +1,13 @@
 import os
 import re
+import sched
+import datetime
 
 from slackeventsapi import SlackEventAdapter
 
 import tasks
 from db import DB
+from timer import Timer
 
 point_regex = re.compile('\+1\s*<@([A-Z0-9]*)>$')
 
@@ -47,6 +50,17 @@ def on_message(event):
 	handle_message(text, channel)
 
 
+def monthly_update():
+	date = datetime.date.today()
+	hour = int(datetime.datetime.now().strftime("%H"))
+	day = date.day
+	print('day: {}; hour: {}'.format(day, hour))
+	if day == 21 and hour == 20:
+		submit_post_points('general')
+
+
 if __name__ == '__main__':
 	port = os.environ.get('PORT', 3000)
 	event_adapter.start(host='0.0.0.0', port=port)
+	timer = Timer(monthly_update, 30)
+	timer.start()

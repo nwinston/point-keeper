@@ -53,7 +53,7 @@ def on_reaction_added(payload):
 
 @event_adapter.on('message')
 def on_message(payload):
-	print('on message')
+    print('on message')
 
 
 def monthly_update():
@@ -69,5 +69,5 @@ if __name__ == '__main__':
     timer = Timer(monthly_update, 60 * 60 * 30.5)
     timer.start()
 
-	port = os.environ.get('PORT', 3000)
-	event_adapter.start(host='0.0.0.0', port=port)
+    port = os.environ.get('PORT', 3000)
+    event_adapter.start(host='0.0.0.0', port=port)

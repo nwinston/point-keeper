@@ -28,7 +28,12 @@ def post_points(channel, user=None, n=None):
 
 @event_adapter.on('reaction_added')
 def on_message(payload):
+    print('reaction added')
+
     event = payload['event']
+    if event['name'] != 'thumbsup':
+        return
+
     reactee_id = event['item_user']
 
     channel = event['item']['channel']

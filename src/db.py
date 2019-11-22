@@ -54,3 +54,7 @@ class DB:
 	@staticmethod
 	def create_msg_id(channel, timestamp):
 		return '{}:{}'.format(channel, timestamp)
+
+	@staticmethod
+	def split_msg_id(msg_id):
+		return tuple(msg_id.split(':'))

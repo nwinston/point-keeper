@@ -45,12 +45,16 @@ def on_reaction_added(payload):
     msg_id = DB.create_msg_id(channel, timestamp)
 
     reply_thread = db.get_reply_thread(msg_id)
+    print('reply_thread 1: {}'.format(reply_thread))
     if not reply_thread:
         reply = bot.post_point_recorded_message(channel)
         reply_ts = reply['ts']
         reply_thread = DB.create_msg_id(channel, reply_ts)
+        db.add_reply_thread(msg_id, reply_thread)
+        return
 
-    db.add_reply_thread(msg_id, reply_thread)
+    reply_ts = DB.split_msg_id(reply_thread)
+    bot.post_point_recorded_message(channel, reply_ts)
 
 
 @event_adapter.on('reaction_removed')

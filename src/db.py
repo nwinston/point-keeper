@@ -43,9 +43,11 @@ class DB:
 		return results.most_common(n)
 
 	def get_reply_thread(self, msg_id):
+		print('fetching reply thread: {}'.format(msg_id))
 		return self.conn.hget(REPLIES, msg_id)
 
 	def add_reply_thread(self, initial_msg_id, reply_id):
+		print('adding reply thread: '.format(initial_msg_id, reply_id))
 		self.conn.pipeline().hset(REPLIES, initial_msg_id, reply_id)
 		self.conn.pipeline().execute()
 

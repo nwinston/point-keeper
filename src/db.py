@@ -20,6 +20,8 @@ class DB:
 		self.conn.pipeline().hset(USERS, user_id, points)
 		self.conn.pipeline().execute()
 
+		print(self.conn.hget(USERS))
+
 	def remove_point(self, user_id):
 		points = self.conn.hget(USERS, user_id)
 		if not points:
@@ -51,6 +53,8 @@ class DB:
 		print('adding reply thread: {}'.format(initial_msg_id, reply_id))
 		self.conn.pipeline().hset(REPLIES, initial_msg_id, reply_id)
 		self.conn.pipeline().execute()
+
+		print(self.conn.hgetall(REPLIES))
 
 	@staticmethod
 	def create_msg_id(channel, timestamp):

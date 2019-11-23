@@ -33,7 +33,7 @@ def post_points(channel, user=None, n=None):
     if not points:
         return
     
-    last_month = datetime.now() - timedelta(months=1)
+    last_month = datetime.date.today() - timedelta(months=1)
     date_str = format(last_month, '%B %Y')
     message = 'Point totals for {}:\n'.format(date_str)
     message += '\n'.join([f'<@{r[0]}>: {r[1]}' for r in points])
@@ -95,7 +95,8 @@ def monthly_update():
 
 
 if __name__ == '__main__':
-    timer = Timer(monthly_update, 60)
+    update_check_interval = os.environ.get('UPDATE_CHECK_INTERVAL', 60 * 60)
+    timer = Timer(monthly_update, update_check_interval)
     timer.start()
 
     port = os.environ.get('PORT', 3000)

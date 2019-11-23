@@ -77,12 +77,12 @@ def monthly_update():
     hour = (int(datetime.datetime.utcnow().strftime("%H")) - 5) % 24  # hardcoding to EST
     day = date.day
     print('day: {}; hour: {}'.format(day, hour))
-    if day == 21 and hour == 20:
+    if day == 23 and (hour == 11 or hour == 12):
         post_points('general')
 
 
 if __name__ == '__main__':
-    timer = Timer(monthly_update, 60 * 60 * 30.5)
+    timer = Timer(monthly_update, 60)
     timer.start()
 
     port = os.environ.get('PORT', 3000)

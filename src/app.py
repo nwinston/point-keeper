@@ -2,7 +2,7 @@ import os
 import re
 import sched
 import datetime
-from datetime import timedelta
+from dateutil.relativedelta import relativedelta
 import threading
 
 from slackeventsapi import SlackEventAdapter
@@ -33,7 +33,7 @@ def post_points(channel, user=None, n=None):
     if not points:
         return
     
-    last_month = datetime.date.today() - timedelta(months=1)
+    last_month = datetime.date.today() - relativedelta(month=1)
     date_str = format(last_month, '%B %Y')
     message = 'Point totals for {}:\n'.format(date_str)
     message += '\n'.join([f'<@{r[0]}>: {r[1]}' for r in points])

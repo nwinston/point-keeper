@@ -53,7 +53,7 @@ def on_reaction_added(payload):
         db.add_reply_thread(msg_id, reply_thread)
         return
 
-    reply_ts = DB.split_msg_id(reply_thread)
+    channel, reply_ts = DB.split_msg_id(reply_thread)
     bot.post_point_recorded_message(channel, reply_ts)
 
 

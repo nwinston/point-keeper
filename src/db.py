@@ -16,8 +16,8 @@ class DB:
 		if not points:
 			points = 0
 		points = int(points)
-
-		points = points + 1 if points else 1
+		points += 1
+  
 		self.conn.hset(USERS, user_id, points)
 		print(self.conn.hgetall(USERS))
 
@@ -29,8 +29,6 @@ class DB:
 			points = int(points)
 			if points > 0:
 				points -= 1
-
-		points = points - 1 if points else 0
 
 		self.conn.hset(USERS, user_id, points)
 

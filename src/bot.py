@@ -6,6 +6,7 @@ class Bot:
         self.client = slack.WebClient(api_token)
 
     def post_point_recorded_message(self, channel, thread_timestamp=None):
+        print('Responding to channel: {}, ts: {}'.format(channel, thread_timestamp))
         return self.client.chat_postMessage(
             channel=channel,
             text='Point recorded in database',

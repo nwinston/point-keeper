@@ -22,11 +22,14 @@ bot = Bot(bot_token)
 update_day = os.environ.get('UPDATE_DAY', 1)
 update_hour = os.environ.get('UPDATE_HOUR', 9)
 
+print('Posting points at {} {}'.format(update_day, update_hour))
 
 THUMBS_UP = '+1'
 
 def post_points(channel, user=None, n=None):
     points = db.get_points(user, n)
+    print('Posting points table:\n {}'.format(points))
+    
     if not points:
         return
     

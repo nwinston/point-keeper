@@ -9,6 +9,7 @@ USERS = 'users'
 class DB:
 	def __init__(self, db_url):
 		self.conn = redis.from_url(db_url, decode_responses=True)
+		self.conn.flushdb()
 
 	def add_point(self, user_id):
 		points = self.conn.hget(USERS, user_id)
@@ -17,9 +18,7 @@ class DB:
 		points = int(points)
 
 		points = points + 1 if points else 1
-		self.conn.pipeline().hset(USERS, user_id, points)
-		self.conn.pipeline().execute()
-
+		self.conn.hset(USERS, user_id, points)
 		print(self.conn.hgetall(USERS))
 
 	def remove_point(self, user_id):
@@ -33,8 +32,7 @@ class DB:
 
 		points = points - 1 if points else 0
 
-		self.conn.pipeline().hset(USERS, user_id, points)
-		self.conn.pipeline().execute()
+		self.conn.hset(USERS, user_id, points)
 
 	def get_points(self, user_id=None, n=None):
 		if user_id:
@@ -51,8 +49,7 @@ class DB:
 
 	def add_reply_thread(self, initial_msg_id, reply_id):
 		print('adding reply thread: {}'.format(initial_msg_id, reply_id))
-		self.conn.pipeline().hset(REPLIES, initial_msg_id, reply_id)
-		self.conn.pipeline().execute()
+		self.conn.hset(REPLIES, initial_msg_id, reply_id)
 
 		print(self.conn.hgetall(REPLIES))
 

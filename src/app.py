@@ -95,7 +95,7 @@ def monthly_update():
 
 
 if __name__ == '__main__':
-    update_check_interval = os.environ.get('UPDATE_CHECK_INTERVAL', 60 * 60)
+    update_check_interval = int(os.environ.get('UPDATE_CHECK_INTERVAL', 60 * 60))
     timer = Timer(monthly_update, update_check_interval)
     timer.start()
 

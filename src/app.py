@@ -19,8 +19,8 @@ db = DB(db_url)
 bot_token = os.environ.get('BOT_TOKEN')
 bot = Bot(bot_token)
 
-update_day = os.environ.get('UPDATE_DAY', 1)
-update_hour = os.environ.get('UPDATE_HOUR', 9)
+update_day = int(os.environ.get('UPDATE_DAY', 1))
+update_hour = int(os.environ.get('UPDATE_HOUR', 9))
 
 print('Posting points at day {} hour {}'.format(update_day, update_hour))
 
@@ -94,7 +94,7 @@ def monthly_update():
 
 
 if __name__ == '__main__':
-    timer = Timer(monthly_update, 60)
+    timer = Timer(monthly_update, 60 * 60)
     timer.start()
 
     port = os.environ.get('PORT', 3000)

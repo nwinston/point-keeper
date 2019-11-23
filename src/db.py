@@ -20,7 +20,7 @@ class DB:
 		self.conn.pipeline().hset(USERS, user_id, points)
 		self.conn.pipeline().execute()
 
-		print(self.conn.hget(USERS))
+		print(self.conn.hgetall(USERS))
 
 	def remove_point(self, user_id):
 		points = self.conn.hget(USERS, user_id)

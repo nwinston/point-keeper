@@ -1,5 +1,5 @@
 import slack
-
+import datetime
 
 class Bot:
     def __init__(self, api_token):
@@ -24,3 +24,8 @@ class Bot:
             text=pretty_str
         )
 
+    def post_message(self, channel, message):
+        self.client.chat_postMessage(
+            channel=channel,
+            text=message
+        )

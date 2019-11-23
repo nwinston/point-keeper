@@ -19,7 +19,6 @@ class DB:
 		points += 1
   
 		self.conn.hset(USERS, user_id, points)
-		print(self.conn.hgetall(USERS))
 
 	def remove_point(self, user_id):
 		points = self.conn.hget(USERS, user_id)

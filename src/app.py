@@ -2,14 +2,13 @@ import os
 import re
 import sched
 import datetime
+from dateutil.relativedelta import relativedelta
 import threading
 
 from slackeventsapi import SlackEventAdapter
 from db import DB
 from bot import Bot
 from timer import Timer
-
-point_regex = re.compile('\+1\s*<@([A-Z0-9]*)>$')
 
 secret = os.environ.get('SLACK_SIGNING_SECRET', default=None)
 event_adapter = SlackEventAdapter(secret, endpoint='/slack/events')
@@ -20,12 +19,23 @@ db = DB(db_url)
 bot_token = os.environ.get('BOT_TOKEN')
 bot = Bot(bot_token)
 
+update_day = os.environ.get('UPDATE_DAY', 1)
+update_hour = os.environ.get('UPDATE_HOUR', 9)
+
 
 THUMBS_UP = '+1'
 
 def post_points(channel, user=None, n=None):
     points = db.get_points(user, n)
-    bot.post_points_table(points, channel, user, n)
+    if not points:
+        return
+    
+    last_month = datetime.now() - relativedelta(months=1)
+    date_str = format(last_month, '%B %Y')
+    message = 'Point totals for {}:\n'.format(date_str)
+    message += '\n'.join([f'<@{r[0]}>: {r[1]}' for r in points])
+    
+    bot.post_message(channel, message)
 
 
 @event_adapter.on('reaction_added')
@@ -45,7 +55,6 @@ def on_reaction_added(payload):
     msg_id = DB.create_msg_id(channel, timestamp)
 
     reply_thread = db.get_reply_thread(msg_id)
-    print('reply_thread 1: {}'.format(reply_thread))
     if not reply_thread:
         reply = bot.post_point_recorded_message(channel)
         reply_ts = reply['ts']
@@ -76,8 +85,7 @@ def monthly_update():
     date = datetime.date.today()
     hour = (int(datetime.datetime.utcnow().strftime("%H")) - 5) % 24  # hardcoding to EST
     day = date.day
-    print('day: {}; hour: {}'.format(day, hour))
-    if day == 23 and (hour == 11 or hour == 12):
+    if day == update_day and hour == update_hour:
         post_points('general')
 
 

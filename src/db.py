@@ -49,6 +49,9 @@ class DB:
 		self.conn.hset(REPLIES, initial_msg_id, reply_id)
 
 		print(self.conn.hgetall(REPLIES))
+  
+	def clear(self):
+		self.conn.flushdb()
 
 	@staticmethod
 	def create_msg_id(channel, timestamp):

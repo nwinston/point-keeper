@@ -91,10 +91,11 @@ def monthly_update():
     print('update, day {} hour {}'.format(day, hour))
     if day == update_day and hour == update_hour:
         post_points('general')
+        db.clear()
 
 
 if __name__ == '__main__':
-    timer = Timer(monthly_update, 60 * 60)
+    timer = Timer(monthly_update, 60)
     timer.start()
 
     port = os.environ.get('PORT', 3000)

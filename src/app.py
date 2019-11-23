@@ -22,7 +22,7 @@ bot = Bot(bot_token)
 update_day = os.environ.get('UPDATE_DAY', 1)
 update_hour = os.environ.get('UPDATE_HOUR', 9)
 
-print('Posting points at {} {}'.format(update_day, update_hour))
+print('Posting points at day {} hour {}'.format(update_day, update_hour))
 
 THUMBS_UP = '+1'
 
@@ -88,6 +88,7 @@ def monthly_update():
     date = datetime.date.today()
     hour = (int(datetime.datetime.utcnow().strftime("%H")) - 5) % 24  # hardcoding to EST
     day = date.day
+    print('update, day {} hour {}'.format(day, hour))
     if day == update_day and hour == update_hour:
         post_points('general')
 

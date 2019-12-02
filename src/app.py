@@ -47,7 +47,7 @@ def on_reaction_added(payload):
     reaction = event['reaction']
 
     print('reaction added: {}'.format(reaction))
-    if reaction != THUMBS_UP:
+    if THUMBS_UP not in reaction: # handle different skin tone +1's
         return
 
     reactee_id = event['item_user']

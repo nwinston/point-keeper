@@ -76,7 +76,7 @@ def on_reaction_added(payload):
 @event_adapter.on('reaction_removed')
 def on_reaction_removed(payload):
     event = payload['event']
-    if event['reaction'] != THUMBS_UP:
+    if THUMBS_UP not in event['reaction']:
         return
 
     reactee_id = event['item_user']

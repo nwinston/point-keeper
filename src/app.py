@@ -52,7 +52,10 @@ def on_reaction_added(payload):
 
     reactee_id = event['item_user']
     db.add_point(reactee_id)
-
+    
+    if not os.environ.get('SEND_MESSAGE', False):
+        return
+    
     channel = event['item']['channel']
     timestamp = event['item']['ts']
     msg_id = DB.create_msg_id(channel, timestamp)
@@ -67,6 +70,7 @@ def on_reaction_added(payload):
 
     channel, reply_ts = DB.split_msg_id(reply_thread)
     bot.post_point_recorded_message(channel, reply_ts)
+    
 
 
 @event_adapter.on('reaction_removed')

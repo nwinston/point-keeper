@@ -50,7 +50,9 @@ def on_reaction_added(payload):
     if THUMBS_UP not in reaction: # handle different skin tone +1's
         return
 
-    reactee_id = event['item_user']
+    reactee_id = event.get('item_user', None)
+    if not reactee_id:
+        print('Item user not found in reaction event:\n {}'.format(event))
     db.add_point(reactee_id)
     
     if not os.environ.get('SEND_MESSAGE', False):

@@ -24,6 +24,8 @@ class DB:
 		if not points:
 			points = 0
 
+		points = int(points)
+
 		points = max(points - 1, 0)
 		self.conn.hset(USERS, user_id, points)
 

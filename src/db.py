@@ -14,6 +14,7 @@ class DB:
 		points = self.conn.hget(USERS, user_id)
 		if not points:
 			points = 0
+		points = int(points)
 		points += 1
   
 		self.conn.hset(USERS, user_id, points)

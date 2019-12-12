@@ -53,6 +53,8 @@ def on_reaction_added(payload):
     reactee_id = event.get('item_user', None)
     if not reactee_id:
         print('Item user not found in reaction event:\n {}'.format(event))
+        return
+    
     db.add_point(reactee_id)
     
     if not os.environ.get('SEND_MESSAGE', False):
@@ -94,7 +96,7 @@ def monthly_update():
     date = datetime.date.today()
     hour = (int(datetime.datetime.utcnow().strftime("%H")) - 5) % 24  # hardcoding to EST
     day = date.day
-    print('update, day {} hour {}'.format(day, hour))
+    
     if day == update_day and hour == update_hour:
         post_points('general')
         db.clear()
